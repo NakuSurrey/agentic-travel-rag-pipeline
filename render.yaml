@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: travel-rag-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: PINECONE_INDEX_NAME
+        value: travel-rag
+      - key: EMBEDDING_MODEL
+        value: all-MiniLM-L6-v2
+      - key: LLM_MODEL
+        value: llama-3.1-70b-versatile
+      - key: APP_API_KEY
+        sync: false
+      - key: PORT
+        value: "8000"
+      - key: HOST
+        value: "0.0.0.0"
