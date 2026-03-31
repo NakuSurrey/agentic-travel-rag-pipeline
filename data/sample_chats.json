@@ -1,0 +1,57 @@
+[
+  {
+    "chat_id": "chat_001",
+    "messages": [
+      {"user": "Alex", "text": "Hey guys, I'm thinking we should plan a trip somewhere warm next month!"},
+      {"user": "Jordan", "text": "Yesss I'm so down. Somewhere beachy? I need to escape this cold."},
+      {"user": "Sam", "text": "I'm in! But let's keep it under $1500 per person max."},
+      {"user": "Alex", "text": "Totally fair. Maybe somewhere in Mexico or the Caribbean?"},
+      {"user": "Jordan", "text": "Cancun vibes? I've always wanted to go. March 15-22 works for me."},
+      {"user": "Sam", "text": "Same dates work. Let's find a nice resort with a pool and beach access."}
+    ]
+  },
+  {
+    "chat_id": "chat_002",
+    "messages": [
+      {"user": "Mia", "text": "Okay team trip planning time. I want mountains and adventure."},
+      {"user": "Liam", "text": "Ooh how about Switzerland? Zermatt is insane for hiking."},
+      {"user": "Mia", "text": "Love that. Budget-wise I can do up to $3000 for flights and hotel combined."},
+      {"user": "Noah", "text": "I'm looking at June dates, maybe June 10-18?"},
+      {"user": "Liam", "text": "Perfect, let's find something with mountain views and maybe a spa."},
+      {"user": "Mia", "text": "Yes spa is a must. And good hiking access."}
+    ]
+  },
+  {
+    "chat_id": "chat_003",
+    "messages": [
+      {"user": "Priya", "text": "So for the bachelorette party... I'm thinking a fun city trip!"},
+      {"user": "Emma", "text": "OMG yes. Tokyo?? Or maybe Barcelona??"},
+      {"user": "Priya", "text": "Barcelona sounds amazing. Great food, nightlife, culture."},
+      {"user": "Lily", "text": "What's the budget looking like? I can swing about $2000 total."},
+      {"user": "Emma", "text": "Same here. Let's aim for April, maybe April 5-12."},
+      {"user": "Priya", "text": "Perfect. We need a hotel in a central location with good restaurants nearby."}
+    ]
+  },
+  {
+    "chat_id": "chat_004",
+    "messages": [
+      {"user": "Carlos", "text": "Family reunion trip this summer. Need somewhere everyone will enjoy."},
+      {"user": "Maria", "text": "How about somewhere cultural? Kyoto was on my bucket list."},
+      {"user": "Carlos", "text": "That's a great idea. Budget is flexible, maybe $4000 per person since it's a big trip."},
+      {"user": "David", "text": "July 20 to August 2? That's when the kids are off school."},
+      {"user": "Maria", "text": "Works for me. Let's find family-friendly hotels with breakfast included."},
+      {"user": "Carlos", "text": "And somewhere that's walkable to temples and markets."}
+    ]
+  },
+  {
+    "chat_id": "chat_005",
+    "messages": [
+      {"user": "Zara", "text": "Budget backpacking trip anyone? I want adventure on a shoestring."},
+      {"user": "Ryan", "text": "I'm in. Costa Rica? Volcanos, rainforest, surfing."},
+      {"user": "Zara", "text": "Yes! I can only spend like $800 total though."},
+      {"user": "Ryan", "text": "We can make it work with hostels. May sometime?"},
+      {"user": "Tess", "text": "May 1-10 works for me. Let's do it."},
+      {"user": "Zara", "text": "Adventure vibe all the way. Don't need anything fancy, just a clean place to sleep."}
+    ]
+  }
+]
