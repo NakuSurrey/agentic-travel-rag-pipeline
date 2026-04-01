@@ -7,7 +7,7 @@ load_dotenv()
 
 # --- LLM (Groq, free tier) ---
 GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
-LLM_MODEL: str = os.getenv("LLM_MODEL", "llama-3.1-70b-versatile")
+LLM_MODEL: str = os.getenv("LLM_MODEL", "llama-3.3-70b-versatile")
 
 # --- Pinecone ---
 PINECONE_API_KEY: str = os.getenv("PINECONE_API_KEY", "")
