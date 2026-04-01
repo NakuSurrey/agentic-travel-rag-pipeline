@@ -30,7 +30,7 @@ class ChatRequest(BaseModel):
     """Incoming request with raw group chat messages."""
 
     chat_id: Optional[str] = None
-    messages: list[dict] = Field(..., description="List of {user, text} message dicts")
+    messages: list[dict] = Field(..., description="List of {role, content} message dicts")
     top_k: int = Field(5, description="Number of results to return per category")
 
 

@@ -45,7 +45,7 @@ SCHEMA_STR = json.dumps(TravelIntent.model_json_schema(), indent=2)
 
 def _flatten_chat(messages: list[dict]) -> str:
     """Convert list of {user, text} dicts into readable chat transcript."""
-    return "\n".join(f"{m['user']}: {m['text']}" for m in messages)
+    return "\n".join(f"{m['role']}: {m['content']}" for m in messages)
 
 
 # ---------------------------------------------------------------------------
