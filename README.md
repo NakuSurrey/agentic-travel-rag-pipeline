@@ -5,16 +5,16 @@
 ![LangChain](https://img.shields.io/badge/LangChain-0.3-orange?logo=chainlink&logoColor=white)
 ![Pinecone](https://img.shields.io/badge/Pinecone-Vector_DB-purple)
 ![Docker](https://img.shields.io/badge/Docker-Containerised-2496ED?logo=docker&logoColor=white)
-![Render](https://img.shields.io/badge/Render-Deployed-46E3B7?logo=render&logoColor=white)
+![Deployed](https://img.shields.io/badge/Hetzner-Live-green?logo=hetzner&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 A production-grade REST API that reads unstructured group chat messages, extracts travel intent using an LLM, searches a vector database for matching hotels and flights, and generates a friendly itinerary summary — all in one request.
 
 ## Live Demo
 
-> **API URL:** `https://travel-rag-api.onrender.com`
+> **API URL:** `http://46.225.208.197/travel-api`
 >
-> Interactive docs: `https://travel-rag-api.onrender.com/docs`
+> Interactive docs: [`http://46.225.208.197/travel-api/docs`](http://46.225.208.197/travel-api/docs)
 >
 > Requires `X-API-Key` header for authentication.
 
@@ -24,7 +24,7 @@ A production-grade REST API that reads unstructured group chat messages, extract
 - **Searches 11,000 hotel and flight records by meaning** — not exact keywords, but semantic similarity using vector embeddings and Pinecone
 - **Generates a friendly travel recommendation** — the LLM writes a human-readable summary grounded in actual search results, not hallucinated data
 - **Protects the API** — API key authentication, rate limiting (50 req/min), and in-memory caching for repeated queries
-- **Runs anywhere** — Docker container with one-command local setup and Render cloud deployment
+- **Runs anywhere** — Docker container with one-command local setup, deployed on a self-hosted Hetzner VPS with Nginx reverse proxy
 
 ## Why I Built It
 
@@ -42,7 +42,7 @@ Wanted to build something that shows the full RAG pipeline end to end — not ju
 | Vector Database | Pinecone (Serverless) | Managed cloud vector search with metadata filtering, free tier |
 | Data Validation | Pydantic v2 | Typed schemas that auto-validate input and generate API docs |
 | Containerisation | Docker + Docker Compose | One-command local setup, identical environment everywhere |
-| Deployment | Render | Free forever, no credit card, auto-deploys from GitHub |
+| Deployment | Hetzner + Docker + Nginx | Self-hosted VPS with reverse proxy — full control over the infrastructure |
 
 ## Architecture
 
@@ -161,7 +161,7 @@ This builds the image, loads `.env` at runtime, and starts the server on port 80
 - Cosine similarity measures the angle between two vectors — 1.0 means identical meaning, 0.0 means unrelated
 - Pinecone metadata filtering combines vector similarity with traditional filters — best of both search methods
 - Pydantic models serve triple duty — input validation, output serialization, and auto-generated API docs
-- Environment variables keep secrets out of code — `.env` for local, Render dashboard for production, same `os.getenv()` call works both places
+- Environment variables keep secrets out of code — `.env` for local, server `.env` for production, same `os.getenv()` call works both places
 - Docker layer caching matters — separate COPY for requirements.txt keeps pip install cached when only code changes
 - In-memory rate limiting tracks timestamps per client — filtering old timestamps prevents memory leaks and false rejections
 - Graceful degradation is a design choice — non-critical failures return fallback messages instead of crashing the entire request
