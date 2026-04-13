@@ -22,3 +22,8 @@ PORT: int = int(os.getenv("PORT", "8000"))
 
 # --- API Authentication ---
 APP_API_KEY: str = os.getenv("APP_API_KEY", "")
+
+# --- Reverse Proxy ---
+# set ROOT_PATH when the app runs behind a reverse proxy at a subpath (e.g. /travel-api)
+# leave empty for local development or direct Docker access
+ROOT_PATH: str = os.getenv("ROOT_PATH", "")

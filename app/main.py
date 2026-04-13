@@ -13,7 +13,7 @@ import json
 from fastapi import FastAPI, HTTPException, Security
 from fastapi.security import APIKeyHeader
 
-from app.config import APP_API_KEY, HOST, PORT
+from app.config import APP_API_KEY, HOST, PORT, ROOT_PATH
 from app.models import (
     ChatRequest,
     ItineraryResponse,
@@ -33,6 +33,7 @@ app = FastAPI(
     title="Travel RAG API",
     version="1.0.0",
     description="Agentic travel planning pipeline: intent extraction → RAG search → itinerary generation",
+    root_path=ROOT_PATH,
 )
 
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
