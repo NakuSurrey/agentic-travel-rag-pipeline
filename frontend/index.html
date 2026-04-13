@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel RAG Pipeline — Live Demo</title>
+    <style>
+        /* --- reset and base --- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* --- layout wrapper --- */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* --- header --- */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header .tech-tags {
+            margin-top: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            justify-content: center;
+        }
+
+        .tech-tag {
+            background: #1e293b;
+            color: #7dd3fc;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            border: 1px solid #334155;
+        }
+
+        /* --- pipeline diagram --- */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-step {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.75rem;
+            text-align: center;
+            color: #cbd5e1;
+            transition: all 0.3s;
+        }
+
+        .pipeline-step.active {
+            border-color: #38bdf8;
+            background: #0c4a6e;
+            color: #e0f2fe;
+        }
+
+        .pipeline-arrow {
+            color: #475569;
+            font-size: 1rem;
+        }
+
+        /* --- chat input area --- */
+        .input-section {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-section label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-messages {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-family: inherit;
+            font-size: 0.9rem;
+            padding: 0.75rem;
+            min-height: 120px;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .chat-messages:focus {
+            border-color: #38bdf8;
+        }
+
+        .chat-messages::placeholder {
+            color: #475569;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+
+        .example-btn {
+            background: none;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-btn:hover {
+            border-color: #38bdf8;
+            color: #7dd3fc;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            background: #334155;
+            color: #64748b;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* --- loading state --- */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+            display: none;
+        }
+
+        .loading.visible { display: block; }
+
+        .spinner {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            border: 3px solid #334155;
+            border-top-color: #38bdf8;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 0.75rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-steps {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .loading-steps .step {
+            padding: 0.15rem 0;
+            opacity: 0.4;
+            transition: opacity 0.3s;
+        }
+
+        .loading-steps .step.active {
+            opacity: 1;
+            color: #7dd3fc;
+        }
+
+        .loading-steps .step.done {
+            opacity: 0.7;
+            color: #4ade80;
+        }
+
+        /* --- error display --- */
+        .error-box {
+            background: #450a0a;
+            border: 1px solid #7f1d1d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: #fca5a5;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        /* --- results area --- */
+        .results { display: none; }
+        .results.visible { display: block; }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .result-header h2 {
+            font-size: 1.15rem;
+            color: #f8fafc;
+        }
+
+        .timing {
+            font-size: 0.75rem;
+            color: #64748b;
+            background: #1e293b;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* --- intent card --- */
+        .intent-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .intent-card h3 {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .intent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .intent-item {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .intent-item .label {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .intent-item .value {
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            margin-top: 0.15rem;
+        }
+
+        /* --- summary card --- */
+        .summary-card {
+            background: linear-gradient(135deg, #0c4a6e, #1e3a5f);
+            border: 1px solid #1e5f8a;
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #e0f2fe;
+        }
+
+        .summary-card h3 {
+            font-size: 0.85rem;
+            color: #7dd3fc;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- hotel and flight cards --- */
+        .section-title {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: #475569;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .card-score {
+            font-size: 0.7rem;
+            background: #164e63;
+            color: #67e8f9;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .card-detail {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            padding: 0.1rem 0;
+        }
+
+        .card-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #4ade80;
+            margin-top: 0.4rem;
+        }
+
+        .card-amenities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-top: 0.4rem;
+        }
+
+        .amenity {
+            font-size: 0.65rem;
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        .card-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.8rem;
+            color: #fbbf24;
+            margin-top: 0.3rem;
+        }
+
+        /* --- footer --- */
+        .footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .footer a:hover { text-decoration: underline; }
+
+        .footer p {
+            color: #475569;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+        }
+
+        /* --- responsive --- */
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            .header h1 { font-size: 1.4rem; }
+            .pipeline { gap: 0.15rem; }
+            .pipeline-step { font-size: 0.65rem; padding: 0.35rem 0.5rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .intent-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- header -->
+        <div class="header">
+            <h1>Travel RAG Pipeline</h1>
+            <p>Type a group chat conversation about travel plans. The pipeline extracts intent, searches 11,000 records by meaning, and generates a grounded itinerary.</p>
+            <div class="tech-tags">
+                <span class="tech-tag">FastAPI</span>
+                <span class="tech-tag">LangChain</span>
+                <span class="tech-tag">Groq LLM</span>
+                <span class="tech-tag">Pinecone</span>
+                <span class="tech-tag">sentence-transformers</span>
+                <span class="tech-tag">Docker</span>
+            </div>
+        </div>
+
+        <!-- pipeline visualization -->
+        <div class="pipeline" id="pipeline">
+            <div class="pipeline-step" data-step="0">Chat Input</div>
+            <span class="pipeline-arrow">&#8594;</span>
+            <div class="pipeline-step" data-step="1">Intent Extraction</div>
+            <span class="pipeline-arrow">&#8594;</span>
+            <div class="pipeline-step" data-step="2">Vector Search</div>
+            <span class="pipeline-arrow">&#8594;</span>
+            <div class="pipeline-step" data-step="3">LLM Summary</div>
+            <span class="pipeline-arrow">&#8594;</span>
+            <div class="pipeline-step" data-step="4">Itinerary</div>
+        </div>
+
+        <!-- chat input -->
+        <div class="input-section">
+            <label>Group Chat Messages</label>
+            <textarea class="chat-messages" id="chatInput" placeholder="Example:&#10;Alice: Hey, should we go to Bali next month?&#10;Bob: Yes! I want a beach resort with a pool, maybe $200/night max&#10;Alice: Let's do March 15-22, four of us going"></textarea>
+            <div class="controls">
+                <div>
+                    <button class="example-btn" onclick="loadExample(1)">Example 1</button>
+                    <button class="example-btn" onclick="loadExample(2)">Example 2</button>
+                    <button class="example-btn" onclick="loadExample(3)">Example 3</button>
+                </div>
+                <button class="submit-btn" id="submitBtn" onclick="planTrip()">Plan My Trip</button>
+            </div>
+        </div>
+
+        <!-- loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>Processing through the pipeline...</div>
+            <div class="loading-steps">
+                <div class="step" data-ls="0">Extracting travel intent from chat...</div>
+                <div class="step" data-ls="1">Searching 11,000 records by semantic similarity...</div>
+                <div class="step" data-ls="2">Generating grounded itinerary summary...</div>
+            </div>
+        </div>
+
+        <!-- error -->
+        <div class="error-box" id="errorBox"></div>
+
+        <!-- results -->
+        <div class="results" id="results">
+            <div class="result-header">
+                <h2>Your Itinerary</h2>
+                <span class="timing" id="timing"></span>
+            </div>
+
+            <!-- extracted intent -->
+            <div class="intent-card">
+                <h3>Extracted Intent</h3>
+                <div class="intent-grid" id="intentGrid"></div>
+            </div>
+
+            <!-- summary -->
+            <div class="summary-card" id="summaryCard" style="display:none;">
+                <h3>AI Travel Summary</h3>
+                <div id="summaryText"></div>
+            </div>
+
+            <!-- hotels -->
+            <div id="hotelsSection" style="display:none;">
+                <div class="section-title">Recommended Hotels</div>
+                <div class="cards-grid" id="hotelsGrid"></div>
+            </div>
+
+            <!-- flights -->
+            <div id="flightsSection" style="display:none;">
+                <div class="section-title">Recommended Flights</div>
+                <div class="cards-grid" id="flightsGrid"></div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div class="footer">
+            <a href="/travel-api/docs" target="_blank">API Documentation (Swagger)</a>
+            &nbsp;&middot;&nbsp;
+            <a href="https://github.com/NakuSurrey/agentic-travel-rag-pipeline" target="_blank">GitHub Repository</a>
+            <p>Built with FastAPI, LangChain, Pinecone, Groq &mdash; deployed on Hetzner with Docker + Nginx</p>
+        </div>
+
+    </div>
+
+    <script>
+        /* --- example chat messages --- */
+        const examples = {
+            1: `Alice: Hey everyone, should we go to Bali next month?\nBob: Yes! I want a beach resort with a pool, maybe $200 per night max\nAlice: Let's do March 15 to March 22, four of us going\nCarol: I want somewhere with a spa and free breakfast`,
+            2: `Jake: I'm thinking we do a city trip to Tokyo\nMia: Love it! When were you thinking?\nJake: Sometime in April, maybe a week. Budget around $150 a night for the hotel\nMia: Let's find something near Shibuya with good reviews\nJake: Just the two of us, right?`,
+            3: `Sam: Mountain trip anyone? I want to go somewhere cold with hiking trails\nLisa: Switzerland or maybe the Canadian Rockies?\nSam: Let's say budget $300/night, we deserve something nice\nLisa: June would be perfect. A week? Group of 3?\nSam: Find us something with a fireplace and mountain views`
+        };
+
+        function loadExample(n) {
+            document.getElementById('chatInput').value = examples[n];
+        }
+
+        /* --- parse chat text into messages array --- */
+        function parseChat(text) {
+            const lines = text.trim().split('\n').filter(l => l.trim());
+            return lines.map(line => {
+                const colonIdx = line.indexOf(':');
+                if (colonIdx > 0 && colonIdx < 30) {
+                    return { role: line.slice(0, colonIdx).trim(), content: line.slice(colonIdx + 1).trim() };
+                }
+                return { role: 'user', content: line.trim() };
+            });
+        }
+
+        /* --- pipeline step animation --- */
+        function setPipelineStep(step) {
+            document.querySelectorAll('.pipeline-step').forEach(el => {
+                const s = parseInt(el.dataset.step);
+                el.classList.toggle('active', s === step);
+            });
+        }
+
+        function setLoadingStep(step) {
+            document.querySelectorAll('.loading-steps .step').forEach(el => {
+                const s = parseInt(el.dataset.ls);
+                el.classList.toggle('active', s === step);
+                el.classList.toggle('done', s < step);
+            });
+        }
+
+        /* --- star display --- */
+        function stars(rating) {
+            const full = Math.floor(rating);
+            const half = rating - full >= 0.5 ? 1 : 0;
+            return '&#9733;'.repeat(full) + (half ? '&#9734;' : '') + ` ${rating.toFixed(1)}`;
+        }
+
+        /* --- main function --- */
+        async function planTrip() {
+            const text = document.getElementById('chatInput').value.trim();
+            if (!text) return;
+
+            const btn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const errorBox = document.getElementById('errorBox');
+            const results = document.getElementById('results');
+
+            /* reset state */
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+            loading.classList.add('visible');
+            errorBox.style.display = 'none';
+            results.classList.remove('visible');
+            setPipelineStep(0);
+
+            try {
+                /* step 1 — sending request */
+                setTimeout(() => { setPipelineStep(1); setLoadingStep(0); }, 300);
+
+                const messages = parseChat(text);
+
+                const response = await fetch('/travel-api/api/v1/plan-trip', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': 'travel-rag-key-2026'
+                    },
+                    body: JSON.stringify({ messages, top_k: 5 })
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.detail || `API returned ${response.status}`);
+                }
+
+                /* step 2 — got response, parse */
+                setPipelineStep(2);
+                setLoadingStep(1);
+
+                const data = await response.json();
+
+                /* step 3 — rendering */
+                setTimeout(() => { setPipelineStep(3); setLoadingStep(2); }, 200);
+
+                await new Promise(r => setTimeout(r, 400));
+                setPipelineStep(4);
+
+                renderResults(data);
+
+            } catch (err) {
+                errorBox.textContent = `Error: ${err.message}`;
+                errorBox.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Plan My Trip';
+                loading.classList.remove('visible');
+            }
+        }
+
+        /* --- render results --- */
+        function renderResults(data) {
+            const results = document.getElementById('results');
+
+            /* timing */
+            document.getElementById('timing').textContent = `${Math.round(data.processing_time_ms)} ms`;
+
+            /* intent */
+            const intent = data.extracted_intent;
+            const grid = document.getElementById('intentGrid');
+            grid.innerHTML = '';
+
+            const intentFields = [
+                ['Destination', intent.destination],
+                ['Vibe', intent.vibe],
+                ['Budget / person', intent.budget_per_person ? `$${intent.budget_per_person}` : null],
+                ['Check-in', intent.check_in],
+                ['Check-out', intent.check_out],
+                ['Group size', intent.group_size],
+                ['Amenities', intent.amenities && intent.amenities.length ? intent.amenities.join(', ') : null],
+                ['Notes', intent.notes]
+            ];
+
+            intentFields.forEach(([label, value]) => {
+                if (value) {
+                    const div = document.createElement('div');
+                    div.className = 'intent-item';
+                    div.innerHTML = `<div class="label">${label}</div><div class="value">${value}</div>`;
+                    grid.appendChild(div);
+                }
+            });
+
+            /* summary */
+            const summaryCard = document.getElementById('summaryCard');
+            if (data.summary) {
+                document.getElementById('summaryText').textContent = data.summary;
+                summaryCard.style.display = 'block';
+            } else {
+                summaryCard.style.display = 'none';
+            }
+
+            /* hotels */
+            const hotelsSection = document.getElementById('hotelsSection');
+            const hotelsGrid = document.getElementById('hotelsGrid');
+            hotelsGrid.innerHTML = '';
+
+            if (data.recommended_hotels && data.recommended_hotels.length) {
+                data.recommended_hotels.forEach(h => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-top">
+                            <div class="card-name">${h.name}</div>
+                            <div class="card-score">${(h.score * 100).toFixed(0)}% match</div>
+                        </div>
+                        <div class="card-detail">${h.destination} &middot; ${h.vibe} &middot; ${'&#9733;'.repeat(h.stars)} ${h.stars}-star</div>
+                        <div class="card-rating">${stars(h.rating)}</div>
+                        <div class="card-price">$${h.price_per_night}/night</div>
+                        ${h.amenities && h.amenities.length ? `<div class="card-amenities">${h.amenities.map(a => `<span class="amenity">${a}</span>`).join('')}</div>` : ''}
+                    `;
+                    hotelsGrid.appendChild(card);
+                });
+                hotelsSection.style.display = 'block';
+            } else {
+                hotelsSection.style.display = 'none';
+            }
+
+            /* flights */
+            const flightsSection = document.getElementById('flightsSection');
+            const flightsGrid = document.getElementById('flightsGrid');
+            flightsGrid.innerHTML = '';
+
+            if (data.recommended_flights && data.recommended_flights.length) {
+                data.recommended_flights.forEach(f => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-top">
+                            <div class="card-name">${f.airline}</div>
+                            <div class="card-score">${(f.score * 100).toFixed(0)}% match</div>
+                        </div>
+                        <div class="card-detail">${f.origin} &#8594; ${f.destination}</div>
+                        <div class="card-detail">${f.cabin_class} &middot; ${f.duration_hours}h &middot; ${f.stops === 0 ? 'Direct' : f.stops + ' stop' + (f.stops > 1 ? 's' : '')}</div>
+                        <div class="card-detail">${f.departure_date}</div>
+                        <div class="card-rating">${stars(f.rating)}</div>
+                        <div class="card-price">$${f.price}</div>
+                    `;
+                    flightsGrid.appendChild(card);
+                });
+                flightsSection.style.display = 'block';
+            } else {
+                flightsSection.style.display = 'none';
+            }
+
+            results.classList.add('visible');
+
+            /* smooth scroll to results */
+            results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
