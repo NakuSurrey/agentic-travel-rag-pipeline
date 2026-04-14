@@ -1,6 +1,6 @@
 """Pydantic models for request/response schemas and internal data structures."""
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional
 
 
@@ -21,6 +21,12 @@ class TravelIntent(BaseModel):
     group_size: Optional[int] = Field(None, description="Number of travelers")
     amenities: list[str] = Field(default_factory=list, description="Desired amenities or preferences")
     notes: Optional[str] = Field(None, description="Any extra context from the conversation")
+
+    # when the LLM returns amenities as null, convert it to an empty list
+    @field_validator("amenities", mode="before")
+    @classmethod
+    def coerce_amenities(cls, v):
+        return v if v is not None else []
 
 
 # ---------------------------------------------------------------------------
