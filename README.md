@@ -12,11 +12,11 @@ A production-grade REST API that reads unstructured group chat messages, extract
 
 ## Live Demo
 
-> **API URL:** `http://46.225.208.197/travel-api`
+> **Visual Demo:** [`http://46.225.208.197/travel-demo/`](http://46.225.208.197/travel-demo/) — type a group chat, see the full pipeline in action
 >
-> Interactive docs: [`http://46.225.208.197/travel-api/docs`](http://46.225.208.197/travel-api/docs)
+> **API Docs:** [`http://46.225.208.197/travel-api/docs`](http://46.225.208.197/travel-api/docs) — interactive Swagger UI
 >
-> Requires `X-API-Key` header for authentication.
+> API requires `X-API-Key` header for authentication.
 
 ## What It Does
 
