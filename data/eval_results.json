@@ -1,0 +1,729 @@
+{
+  "evaluation_config": {
+    "top_k": 5,
+    "num_queries": 25,
+    "precision_threshold": 0.6,
+    "hit_rate_threshold": 0.8,
+    "mrr_threshold": 0.7
+  },
+  "averages": {
+    "hotel_precision": 1.0,
+    "hotel_recall": 0.0336,
+    "hotel_mrr": 1.0,
+    "hotel_hit_rate": 1.0,
+    "flight_precision": 0.88,
+    "flight_recall": 0.2513,
+    "flight_mrr": 0.88,
+    "flight_hit_rate": 0.88
+  },
+  "all_pass": true,
+  "query_results": [
+    {
+      "query_id": "vibe-beach",
+      "description": "beach destinations \u2014 no budget constraint \u2014 tests vibe filter accuracy",
+      "elapsed_ms": 5426.4,
+      "expected_hotel_count": 1125,
+      "expected_flight_count": 1084,
+      "returned_hotel_ids": [
+        "HTL-02514",
+        "HTL-02051",
+        "HTL-04632",
+        "HTL-02963",
+        "HTL-02937"
+      ],
+      "returned_flight_ids": [
+        "FLT-02505",
+        "FLT-04794",
+        "FLT-00299",
+        "FLT-02355",
+        "FLT-00237"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0044,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0046,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "vibe-mountain",
+      "description": "mountain destinations \u2014 no budget constraint \u2014 tests vibe filter accuracy",
+      "elapsed_ms": 1536.2,
+      "expected_hotel_count": 1065,
+      "expected_flight_count": 1133,
+      "returned_hotel_ids": [
+        "HTL-03205",
+        "HTL-01463",
+        "HTL-01155",
+        "HTL-02084",
+        "HTL-01646"
+      ],
+      "returned_flight_ids": [
+        "FLT-04393",
+        "FLT-01546",
+        "FLT-04121",
+        "FLT-02068",
+        "FLT-00933"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0047,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0044,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "vibe-city",
+      "description": "city destinations \u2014 no budget constraint \u2014 tests vibe filter accuracy",
+      "elapsed_ms": 1161.1,
+      "expected_hotel_count": 1075,
+      "expected_flight_count": 1052,
+      "returned_hotel_ids": [
+        "HTL-02984",
+        "HTL-01125",
+        "HTL-02672",
+        "HTL-01374",
+        "HTL-04117"
+      ],
+      "returned_flight_ids": [
+        "FLT-05213",
+        "FLT-02295",
+        "FLT-04374",
+        "FLT-03936",
+        "FLT-01680"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0047,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0048,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "vibe-adventure",
+      "description": "adventure destinations \u2014 no budget constraint \u2014 tests vibe filter accuracy",
+      "elapsed_ms": 1109.0,
+      "expected_hotel_count": 1153,
+      "expected_flight_count": 1086,
+      "returned_hotel_ids": [
+        "HTL-00569",
+        "HTL-04487",
+        "HTL-02406",
+        "HTL-04206",
+        "HTL-04900"
+      ],
+      "returned_flight_ids": [
+        "FLT-03775",
+        "FLT-00663",
+        "FLT-05395",
+        "FLT-03036",
+        "FLT-01880"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0043,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0046,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "vibe-cultural",
+      "description": "cultural destinations \u2014 no budget constraint \u2014 tests vibe filter accuracy",
+      "elapsed_ms": 1348.0,
+      "expected_hotel_count": 1082,
+      "expected_flight_count": 1145,
+      "returned_hotel_ids": [
+        "HTL-00287",
+        "HTL-02556",
+        "HTL-00684",
+        "HTL-04366",
+        "HTL-00008"
+      ],
+      "returned_flight_ids": [
+        "FLT-00978",
+        "FLT-02172",
+        "FLT-04701",
+        "FLT-02208",
+        "FLT-01478"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0046,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0044,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "dest-cancun",
+      "description": "beach hotels and flights in Cancun \u2014 tests destination + vibe combo",
+      "elapsed_ms": 914.0,
+      "expected_hotel_count": 98,
+      "expected_flight_count": 94,
+      "returned_hotel_ids": [
+        "HTL-00225",
+        "HTL-00828",
+        "HTL-00844",
+        "HTL-00183",
+        "HTL-04061"
+      ],
+      "returned_flight_ids": [
+        "FLT-02413",
+        "FLT-02913",
+        "FLT-00319",
+        "FLT-02003",
+        "FLT-03994"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.051,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0532,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "dest-zermatt",
+      "description": "mountain hotels and flights in Zermatt \u2014 tests destination + vibe combo",
+      "elapsed_ms": 1209.5,
+      "expected_hotel_count": 110,
+      "expected_flight_count": 126,
+      "returned_hotel_ids": [
+        "HTL-00498",
+        "HTL-03397",
+        "HTL-00168",
+        "HTL-02804",
+        "HTL-00663"
+      ],
+      "returned_flight_ids": [
+        "FLT-02083",
+        "FLT-01386",
+        "FLT-00479",
+        "FLT-00310",
+        "FLT-02990"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0455,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0397,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "dest-tokyo",
+      "description": "city hotels and flights in Tokyo \u2014 tests destination + vibe combo",
+      "elapsed_ms": 1164.9,
+      "expected_hotel_count": 105,
+      "expected_flight_count": 88,
+      "returned_hotel_ids": [
+        "HTL-01379",
+        "HTL-04189",
+        "HTL-02784",
+        "HTL-01209",
+        "HTL-02020"
+      ],
+      "returned_flight_ids": [
+        "FLT-00603",
+        "FLT-00241",
+        "FLT-04861",
+        "FLT-03824",
+        "FLT-02323"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0476,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0568,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "dest-costa-rica",
+      "description": "adventure hotels and flights in Costa Rica \u2014 tests destination + vibe combo",
+      "elapsed_ms": 1175.3,
+      "expected_hotel_count": 120,
+      "expected_flight_count": 107,
+      "returned_hotel_ids": [
+        "HTL-00134",
+        "HTL-01225",
+        "HTL-05301",
+        "HTL-03908",
+        "HTL-04975"
+      ],
+      "returned_flight_ids": [
+        "FLT-04727",
+        "FLT-01710",
+        "FLT-01246",
+        "FLT-05298",
+        "FLT-05232"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0417,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0467,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "dest-kyoto",
+      "description": "cultural hotels and flights in Kyoto \u2014 tests destination + vibe combo",
+      "elapsed_ms": 1403.5,
+      "expected_hotel_count": 120,
+      "expected_flight_count": 107,
+      "returned_hotel_ids": [
+        "HTL-00286",
+        "HTL-03561",
+        "HTL-00781",
+        "HTL-01279",
+        "HTL-00138"
+      ],
+      "returned_flight_ids": [
+        "FLT-02667",
+        "FLT-04011",
+        "FLT-01197",
+        "FLT-05123",
+        "FLT-03531"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0417,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0467,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "budget-beach-150",
+      "description": "beach under $150 \u2014 tests vibe + budget filter together",
+      "elapsed_ms": 1058.6,
+      "expected_hotel_count": 374,
+      "expected_flight_count": 28,
+      "returned_hotel_ids": [
+        "HTL-00910",
+        "HTL-02225",
+        "HTL-02469",
+        "HTL-02716",
+        "HTL-03837"
+      ],
+      "returned_flight_ids": [
+        "FLT-01483",
+        "FLT-02691",
+        "FLT-04603",
+        "FLT-02410",
+        "FLT-01276"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0134,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.1786,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "budget-mountain-200",
+      "description": "mountain under $200 \u2014 tests vibe + budget filter together",
+      "elapsed_ms": 1068.2,
+      "expected_hotel_count": 586,
+      "expected_flight_count": 92,
+      "returned_hotel_ids": [
+        "HTL-03205",
+        "HTL-04687",
+        "HTL-04373",
+        "HTL-01929",
+        "HTL-00854"
+      ],
+      "returned_flight_ids": [
+        "FLT-01116",
+        "FLT-02710",
+        "FLT-01676",
+        "FLT-04497",
+        "FLT-02127"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0085,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0543,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "budget-city-100",
+      "description": "city under $100 \u2014 tests vibe + budget filter together",
+      "elapsed_ms": 1141.6,
+      "expected_hotel_count": 194,
+      "expected_flight_count": 0,
+      "returned_hotel_ids": [
+        "HTL-05015",
+        "HTL-00757",
+        "HTL-05087",
+        "HTL-04142",
+        "HTL-01422"
+      ],
+      "returned_flight_ids": [],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0258,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 0.0,
+      "flight_recall": 1.0,
+      "flight_mrr": 0.0,
+      "flight_hit": 0.0
+    },
+    {
+      "query_id": "budget-adventure-300",
+      "description": "adventure under $300 \u2014 tests vibe + budget filter together",
+      "elapsed_ms": 1055.0,
+      "expected_hotel_count": 805,
+      "expected_flight_count": 189,
+      "returned_hotel_ids": [
+        "HTL-03918",
+        "HTL-00698",
+        "HTL-00084",
+        "HTL-01668",
+        "HTL-04900"
+      ],
+      "returned_flight_ids": [
+        "FLT-00842",
+        "FLT-01437",
+        "FLT-00737",
+        "FLT-02835",
+        "FLT-05104"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0062,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0265,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "budget-cultural-250",
+      "description": "cultural under $250 \u2014 tests vibe + budget filter together",
+      "elapsed_ms": 1130.6,
+      "expected_hotel_count": 648,
+      "expected_flight_count": 113,
+      "returned_hotel_ids": [
+        "HTL-03482",
+        "HTL-04463",
+        "HTL-02854",
+        "HTL-05222",
+        "HTL-01421"
+      ],
+      "returned_flight_ids": [
+        "FLT-05495",
+        "FLT-00342",
+        "FLT-04120",
+        "FLT-02443",
+        "FLT-04533"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0077,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0442,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "tight-bali-200",
+      "description": "beach in Bali under $200 \u2014 tightest filter combo",
+      "elapsed_ms": 972.0,
+      "expected_hotel_count": 54,
+      "expected_flight_count": 5,
+      "returned_hotel_ids": [
+        "HTL-05019",
+        "HTL-03220",
+        "HTL-04982",
+        "HTL-04319",
+        "HTL-04104"
+      ],
+      "returned_flight_ids": [
+        "FLT-05063",
+        "FLT-00910",
+        "FLT-02875",
+        "FLT-04877",
+        "FLT-05143"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0926,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 1.0,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "tight-banff-300",
+      "description": "mountain in Banff under $300 \u2014 tightest filter combo",
+      "elapsed_ms": 1264.5,
+      "expected_hotel_count": 90,
+      "expected_flight_count": 14,
+      "returned_hotel_ids": [
+        "HTL-01929",
+        "HTL-01362",
+        "HTL-02022",
+        "HTL-04424",
+        "HTL-04812"
+      ],
+      "returned_flight_ids": [
+        "FLT-01631",
+        "FLT-01033",
+        "FLT-00244",
+        "FLT-00615",
+        "FLT-02127"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0556,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.3571,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "tight-barcelona-250",
+      "description": "city in Barcelona under $250 \u2014 tightest filter combo",
+      "elapsed_ms": 945.7,
+      "expected_hotel_count": 65,
+      "expected_flight_count": 16,
+      "returned_hotel_ids": [
+        "HTL-04845",
+        "HTL-01119",
+        "HTL-02124",
+        "HTL-02338",
+        "HTL-00276"
+      ],
+      "returned_flight_ids": [
+        "FLT-00322",
+        "FLT-04298",
+        "FLT-03524",
+        "FLT-02476",
+        "FLT-01418"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0769,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.3125,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "tight-reykjavik-400",
+      "description": "adventure in Reykjavik under $400 \u2014 tightest filter combo",
+      "elapsed_ms": 1411.4,
+      "expected_hotel_count": 100,
+      "expected_flight_count": 32,
+      "returned_hotel_ids": [
+        "HTL-03493",
+        "HTL-02235",
+        "HTL-05381",
+        "HTL-03012",
+        "HTL-02549"
+      ],
+      "returned_flight_ids": [
+        "FLT-00476",
+        "FLT-05316",
+        "FLT-02386",
+        "FLT-05104",
+        "FLT-01180"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.05,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.1562,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "tight-florence-180",
+      "description": "cultural in Florence under $180 \u2014 tightest filter combo",
+      "elapsed_ms": 1417.0,
+      "expected_hotel_count": 48,
+      "expected_flight_count": 6,
+      "returned_hotel_ids": [
+        "HTL-03600",
+        "HTL-04102",
+        "HTL-01329",
+        "HTL-03037",
+        "HTL-01214"
+      ],
+      "returned_flight_ids": [
+        "FLT-00561",
+        "FLT-03054",
+        "FLT-00449",
+        "FLT-02165",
+        "FLT-01374"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.1042,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.8333,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "edge-broad",
+      "description": "no filters at all \u2014 everything is relevant \u2014 tests baseline ranking",
+      "elapsed_ms": 947.7,
+      "expected_hotel_count": 5500,
+      "expected_flight_count": 5500,
+      "returned_hotel_ids": [
+        "HTL-04900",
+        "HTL-04206",
+        "HTL-05021",
+        "HTL-00653",
+        "HTL-02860"
+      ],
+      "returned_flight_ids": [
+        "FLT-03775",
+        "FLT-02739",
+        "FLT-05419",
+        "FLT-00374",
+        "FLT-01605"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0009,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0009,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "edge-tight-budget",
+      "description": "beach under $60 \u2014 very few results expected \u2014 tests sparse retrieval",
+      "elapsed_ms": 994.1,
+      "expected_hotel_count": 54,
+      "expected_flight_count": 0,
+      "returned_hotel_ids": [
+        "HTL-04906",
+        "HTL-01472",
+        "HTL-03204",
+        "HTL-02857",
+        "HTL-02385"
+      ],
+      "returned_flight_ids": [],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0926,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 0.0,
+      "flight_recall": 1.0,
+      "flight_mrr": 0.0,
+      "flight_hit": 0.0
+    },
+    {
+      "query_id": "edge-luxury-mountain",
+      "description": "mountain under $1000 \u2014 generous budget \u2014 tests whether ranking favors quality",
+      "elapsed_ms": 1050.4,
+      "expected_hotel_count": 1065,
+      "expected_flight_count": 629,
+      "returned_hotel_ids": [
+        "HTL-00415",
+        "HTL-03205",
+        "HTL-01333",
+        "HTL-05280",
+        "HTL-03814"
+      ],
+      "returned_flight_ids": [
+        "FLT-02455",
+        "FLT-02974",
+        "FLT-01116",
+        "FLT-01576",
+        "FLT-03804"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0047,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0079,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "edge-dest-only",
+      "description": "Paris only, no vibe \u2014 tests destination-only search without vibe filter",
+      "elapsed_ms": 1128.6,
+      "expected_hotel_count": 117,
+      "expected_flight_count": 112,
+      "returned_hotel_ids": [
+        "HTL-03733",
+        "HTL-03557",
+        "HTL-00047",
+        "HTL-01949",
+        "HTL-04444"
+      ],
+      "returned_flight_ids": [
+        "FLT-03530",
+        "FLT-01634",
+        "FLT-02035",
+        "FLT-00921",
+        "FLT-01915"
+      ],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0427,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 1.0,
+      "flight_recall": 0.0446,
+      "flight_mrr": 1.0,
+      "flight_hit": 1.0
+    },
+    {
+      "query_id": "edge-budget-only",
+      "description": "under $80, no vibe or destination \u2014 tests budget-only filtering",
+      "elapsed_ms": 1191.2,
+      "expected_hotel_count": 606,
+      "expected_flight_count": 0,
+      "returned_hotel_ids": [
+        "HTL-01154",
+        "HTL-04155",
+        "HTL-03392",
+        "HTL-00158",
+        "HTL-05468"
+      ],
+      "returned_flight_ids": [],
+      "hotel_precision": 1.0,
+      "hotel_recall": 0.0083,
+      "hotel_mrr": 1.0,
+      "hotel_hit": 1.0,
+      "flight_precision": 0.0,
+      "flight_recall": 1.0,
+      "flight_mrr": 0.0,
+      "flight_hit": 0.0
+    }
+  ]
+}
