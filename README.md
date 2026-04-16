@@ -24,6 +24,7 @@ A production-grade REST API that reads unstructured group chat messages, extract
 - **Searches 11,000 hotel and flight records by meaning** — not exact keywords, but semantic similarity using vector embeddings and Pinecone
 - **Generates a friendly travel recommendation** — the LLM writes a human-readable summary grounded in actual search results, not hallucinated data
 - **Protects the API** — API key authentication, rate limiting (50 req/min), and in-memory caching for repeated queries
+- **Measures retrieval quality with a 25-query evaluation suite** — precision@k, recall@k, MRR, and hit rate — built from programmatic ground truth, not guesswork. Hotels score 1.0 precision, flights score 0.88. All quality checks pass
 - **Runs anywhere** — Docker container with one-command local setup, deployed on a self-hosted Hetzner VPS with Nginx reverse proxy
 
 ## Why I Built It
@@ -77,6 +78,23 @@ Wanted to build something that shows the full RAG pipeline end to end — not ju
         │
         ▼
 [JSON Response: extracted intent + hotels + flights + summary + timing]
+
+
+┌──────────────────────────────────────────┐
+│  Retrieval Evaluation (offline)          │
+│                                          │
+│  build_eval_set.py                       │
+│     └── Reads hotels.json + flights.json │
+│     └── Builds 25 queries + ground truth │
+│     └── Saves eval_queries.json          │
+│                                          │
+│  run_eval.py                             │
+│     └── Runs queries against Pinecone    │
+│     └── Compares results vs ground truth │
+│     └── Reports Precision, Recall,       │
+│         MRR, Hit Rate per query          │
+│     └── Saves eval_results.json          │
+└──────────────────────────────────────────┘
 ```
 
 ## How To Run Locally
@@ -144,6 +162,35 @@ docker compose up --build
 
 This builds the image, loads `.env` at runtime, and starts the server on port 8000.
 
+## Retrieval Evaluation
+
+Built a 25-query evaluation suite that measures whether the vector search actually returns correct results. Ground truth is not hand-picked — it is generated programmatically by applying the exact same filter logic the retriever uses against the raw data files. This means expected IDs are mathematically correct, not human guesses.
+
+**Metrics measured per query:**
+
+| Metric | What it answers |
+|---|---|
+| Precision@k | Of the 5 results shown, how many are actually relevant? |
+| Recall@k | Of all relevant records in the DB, how many appeared in top 5? |
+| MRR | Where does the first relevant result appear in the ranked list? |
+| Hit Rate@k | Did at least one relevant result show up? |
+
+**Results (25 queries, top_k=5):**
+
+| Category | Precision@5 | MRR | Hit Rate@5 |
+|---|---|---|---|
+| Hotels | 1.00 | 1.00 | 1.00 |
+| Flights | 0.88 | 0.88 | 0.88 |
+
+Hotels scored perfectly — every result returned was relevant, and the first result was always correct. Three flight queries scored 0.0 because zero flights exist in the database at those price points — the evaluation correctly identified this as a limitation rather than a bug.
+
+**Run the evaluation yourself:**
+
+```bash
+python scripts/build_eval_set.py    # generates ground truth from data
+python scripts/run_eval.py           # runs 25 queries against Pinecone
+```
+
 ## Key Decisions
 
 - **Groq over OpenAI** — Free tier with fast inference. Llama 3.3 70B is accurate enough for entity extraction and summary generation. Zero cost.
@@ -152,6 +199,7 @@ This builds the image, loads `.env` at runtime, and starts the server on port 80
 - **Rule-based fallback for intent extraction** — If the Groq API key is missing or the service is down, the system still works using regex and keyword matching. Graceful degradation over hard failure.
 - **Upsert not insert for Pinecone ingestion** — Makes the ingestion script idempotent. Running it twice updates existing records instead of creating duplicates. Safe to retry on failure.
 - **Separate Pinecone queries for hotels and flights** — Each query uses type-specific metadata filters. Keeps results clean and allows independent tuning of top-k per category.
+- **Programmatic ground truth over hand-picked** — Evaluation expected IDs are built by filtering raw data with the exact same logic the retriever uses. Zero human error, fully reproducible, and scales to any dataset size.
 
 ## What I Learned
 
@@ -165,3 +213,5 @@ This builds the image, loads `.env` at runtime, and starts the server on port 80
 - Docker layer caching matters — separate COPY for requirements.txt keeps pip install cached when only code changes
 - In-memory rate limiting tracks timestamps per client — filtering old timestamps prevents memory leaks and false rejections
 - Graceful degradation is a design choice — non-critical failures return fallback messages instead of crashing the entire request
+- Retrieval evaluation separates "does it return results" from "does it return the right results" — precision, recall, MRR, and hit rate each answer a different question
+- Programmatic ground truth eliminates human bias from evaluation — apply the exact same filters to the raw data and the expected IDs are mathematically guaranteed correct
