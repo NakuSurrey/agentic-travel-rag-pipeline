@@ -10,7 +10,7 @@ langchain-community==0.3.13
 
 # Embeddings & Vector Store
 sentence-transformers==3.3.1
-pinecone-client==5.0.1
+pinecone>=5.0.1
 
 # Data generation
 faker==33.1.0
